@@ -13,9 +13,9 @@ import { erc20AbiJson } from '../contracts/json-interfaces.js';
 import { tokens } from '../contracts/addresses.js';
 
 const walletAddresses = [
-  '0x7D25CB84CdfBDAF9A35dF24Be0a854E4D9d96f9d', // MM_main
+  'nicenicky.eth', // MM_main
   // 'cameron.eth',
-  'davidh.eth',
+  '0xEddb07097a9902cBDbc413a39F0feEb07033a621',
   // 'huh.eth',
 ];
 
@@ -48,11 +48,14 @@ async function getTokenBalances(_walletAddresses) {
 }
 
 function compareWallets(_walletBalances) {
-  console.log('compareWallets');
   var allTokens = new Set();
-  tokens.forEach(function (tokenAddress, tokenName) {
-    allTokens.add(tokenName);
-  });
+  // get list of all tokens in each wallet
+  for (const [address, balances] of _walletBalances) {
+    for (const [token, balance] of balances) {
+      allTokens.add(token);
+    }
+  }
+  console.log('alltokens', allTokens);
   var sharedTokens = allTokens;
   _walletBalances.forEach(function (balances, wallet) {
     sharedTokens.forEach(function (token) {
@@ -88,7 +91,7 @@ function main() {
 
 console.log('script');
 var walletBalances = await getTokenBalances(walletAddresses);
-console.log(walletBalances); // debug
+console.log('balances', walletBalances); // debug
 var sharedTokens = compareWallets(walletBalances);
 displayResults(walletAddresses, sharedTokens);
 
