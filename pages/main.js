@@ -49,13 +49,11 @@ async function getTokenBalances(_walletAddresses) {
 
 function compareWallets(_walletBalances) {
   var allTokens = new Set();
-  // get list of all tokens in each wallet
   for (const [address, balances] of _walletBalances) {
     for (const [token, balance] of balances) {
       allTokens.add(token);
     }
   }
-  console.log('alltokens', allTokens);
   var sharedTokens = allTokens;
   _walletBalances.forEach(function (balances, wallet) {
     sharedTokens.forEach(function (token) {
